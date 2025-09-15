@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <style>
+        
+        section {
+            padding: 80px 0;
+            background-color: rgb(255, 255, 255);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #ffd700, #ff6b6b, #4ecdc4);
+            animation: slideInFromLeft 1s ease-out;
+        }
+        
+        section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #000000;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: slideInFromTop 1s ease-out;
+        }
+        
+        /* Car reviews styles */
+        .reviews {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .review-card {
+            width: calc(33.333% - 20px);
+            background-color: #000000;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: zoomIn 1s ease-out;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .review-card img {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .review-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .review-card h3 {
+            margin-bottom: 15px;
+            color: #1a1a1a;
+            font-size: 1.5rem;
+            animation: slideInFromLeft 1s ease-out;
+        }
+        
+        .review-card .rating {
+            color: #00ff22;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            animation: fadeIn 2s ease-out;
+        }
+        
+        .review-card p {
+            color: #666;
+            font-style: italic;
+            animation: slideInFromBottom 1s ease-out;
+        }
+        
+        /* Car rental styles */
+        .rental-options {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .rental-card {
+            width: calc(25% - 20px);
+            background-color: #1eff00;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: flipInX 1s ease-out;
+        }
+        
+        .rental-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2);
+        }
+        
+        .rental-card img {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .rental-card:hover img {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .rental-card h3 {
+            margin-bottom: 15px;
+            color: #2ccb04;
+            font-size: 1.5rem;
+            animation: slideInFromTop 1s ease-out;
+        }
+        
+        .rental-card .price {
+            font-weight: bold;
+            color: #05d027;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .rental-card .book-button {
+            display: inline-block;
+            background-color: #1a1a1a;
+            color: #d7d1ac;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.9rem;
+            animation: bounce 1s ease-out;
+        }
+        
+        .rental-card .book-button:hover {
+            background-color: #ffd700;
+            color: #1a1a1a;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Car servicing styles */
+        .service-options {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .service-card {
+            width: calc(33.333% - 20px);
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: lightSpeedIn 1s ease-out;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .service-card h3 {
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            font-size: 1.5rem;
+            animation: slideInFromLeft 1s ease-out;
+        }
+        
+        .service-card ul {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+        
+        .service-card ul li {
+            margin-bottom: 10px;
+            color: #666;
+            animation: fadeIn 2s ease-out;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover ul li {
+            transform: translateX(10px);
+        }
+        
+        .service-card .price {
+            font-weight: bold;
+            color: #ffd700;
+
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .service-card .book-button {
+            display: inline-block;
+            background-color: #1a1a1a;
+            color: #ffd700;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.9rem;
+            animation: bounce 1s ease-out;
+        }
+        
+        .service-card .book-button:hover {
+            background-color: #ffd700;
+            color: #1a1a1a;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Contact form styles */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            animation: zoomIn 1s ease-out;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            animation: slideInFromLeft 1s ease-out;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #ffd700;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .form-group textarea {
+            height: 150px;
+        }
+        
+        .submit-button {
+            display: inline-block;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+        
+        .submit-button:hover {
+            background-color: #07ff30;
+            color: #f0eeee;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Footer styles */
+        footer {
+            background-color: #1a1a1a;
+            color: #22e803;
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #1aae00, #ff6b6b, #4ecdc4);
+            animation: slideInFromLeft 1s ease-out;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            animation: fadeIn 2s ease-out;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+        
+        .footer-links {
+            list-style-type: none;
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links li {
+            margin: 0 15px;
+            animation: slideInFromBottom 1s ease-out;
+        }
+        
+        .footer-links a {
+            color: #10ef04;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+        
+        .social-icons {
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            color: #ffd700;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            animation: rotateIn 1s ease-out;
+        }
+        
+        .social-icons a:hover {
+            color: #ffffff;
+            transform: scale(1.2) rotate(15deg);
+        }
+        
+        /* Additional Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .review-card,
+            .rental-card,
+            .service-card {
+                width: 100%;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: #00ff04;
+                width: 100%;
+                padding: 20px 0;
+                display: none;
+                animation: slideInFromTop 0.5s ease-out;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+                color: #00f308;
+                cursor: pointer;
+                animation: pulse 2s infinite;
+            }
+        }
+    </style>
+</head>
+</head>
+<body>
+
+    <!-- Header Section -->
+
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Raise Your COMPLAINT</h2>
+            <form class="contact-form" action="mailto:fineaseweb@gmail.com" method="post" enctype="text/plain">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="service">Complaint About:</label>
+                    <select id="service" name="service">
+                            <option value="rental">CARBONCREDITS</option>
+                            <option value="signature">VERIFICATION</option>
+                            <option value="luxury">TRANSACTION</option>
+                            <option value="performance">FRAUD</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Send Inquiry</button>
+            </form>
+            
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">Syquora</div>
+            <ul class="footer-links">
+                 <li><a href="PROJECTS.html">PROJECTS</a></li>
+                    <li><a href="PARTICIPANTS.html">PARTICIPANTS</a></li>
+                    <li><a href="CARBONCREDITS.html">CARBONCREDITS</a></li>
+                    <li><a href="DATAUPLOAD.html">DATAUPLOAD</a></li>
+                    <li><a href="VERIFICATION.html">VERIFICATION</a></li>
+                    <li><a href="help.html">HELP</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">📘</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="Instagram">📷</a>
+            </div>
+        </div>
+        <p>&copy; Syquora@gmail.com All rights reserved.</p>
+    </footer>
+</body>
+</html>
