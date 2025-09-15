@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syquora</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInFromLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        
+        @keyframes slideInFromRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        @keyframes slideInFromTop {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+        
+        @keyframes slideInFromBottom {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes rotateIn {
+            from { transform: rotate(-360deg); opacity: 0; }
+            to { transform: rotate(0); opacity: 1; }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-30px); }
+            60% { transform: translateY(-15px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        
+        @keyframes flipInX {
+            from {
+                transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+                animation-timing-function: ease-in;
+                opacity: 0;
+            }
+            40% {
+                transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+                animation-timing-function: ease-in;
+            }
+            60% {
+                transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+                opacity: 1;
+            }
+            80% {
+                transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+            }
+            to {
+                transform: perspective(400px);
+            }
+        }
+        
+        @keyframes lightSpeedIn {
+            from {
+                transform: translate3d(100%, 0, 0) skewX(-30deg);
+                opacity: 0;
+            }
+            60% {
+                transform: skewX(20deg);
+                opacity: 1;
+            }
+            80% {
+                transform: skewX(-5deg);
+            }
+            to {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            background-color: #f8f8f8;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header styles */
+        header {
+            background-color: #33ff00;
+            color: #000000;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            background-color: rgba(0, 237, 43, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: slideInFromLeft 1s ease-out, pulse 2s infinite;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            display: flex;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+            animation: slideInFromRight 1s ease-out;
+        }
+        
+        nav ul li a {
+            color: #000000;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            position: relative;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #000000;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            transform: scaleX(1);
+        }
+        
+        /* Hero section styles */
+        .hero {
+            background-image: url('Gemini_Generated_Image_5kwvj5kwvj5kwvj5.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            text-align: center;
+            padding: 200px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 2s ease-out;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: zoomIn 1s ease-out, pulse 2s infinite;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            animation: fadeIn 2s ease-out;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: #15ff08;
+            color: #1a1a1a;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            animation: bounce 1s ease-out;
+        }
+        
+        .cta-button:hover {
+            background-color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Section styles */
+        section {
+            padding: 80px 0;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #3ef900, #ff6b6b, #4ecdc4);
+            animation: slideInFromLeft 1s ease-out;
+        }
+        
+        section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #14f400;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: slideInFromTop 1s ease-out;
+        }
+        
+        /* Car reviews styles */
+        .reviews {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .review-card {
+            width: calc(33.333% - 20px);
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: zoomIn 1s ease-out;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(85, 255, 0, 0.2);
+        }
+        
+        .review-card img {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .review-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .review-card h3 {
+            margin-bottom: 15px;
+            color: #1a1a1a;
+            font-size: 1.5rem;
+            animation: slideInFromLeft 1s ease-out;
+        }
+        
+        .review-card .rating {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            animation: fadeIn 2s ease-out;
+        }
+        
+        .review-card p {
+            color: #666;
+            font-style: italic;
+            animation: slideInFromBottom 1s ease-out;
+        }
+        
+        /* Car rental styles */
+        .rental-options {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .rental-card {
+            width: calc(25% - 20px);
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: flipInX 1s ease-out;
+        }
+        
+        .rental-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .rental-card img {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .rental-card:hover img {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .rental-card h3 {
+            margin-bottom: 15px;
+            color: #1a1a1a;
+            font-size: 1.5rem;
+            animation: slideInFromTop 1s ease-out;
+        }
+        
+        .rental-card .price {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .rental-card .book-button {
+            display: inline-block;
+            background-color: #03c800c1;
+            color: #000000;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.9rem;
+            animation: bounce 1s ease-out;
+        }
+        
+        .rental-card .book-button:hover {
+            background-color: #fcfcfc;
+            color: #1a1a1a;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Car servicing styles */
+        .service-options {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .service-card {
+            width: calc(33.333% - 20px);
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: lightSpeedIn 1s ease-out;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .service-card h3 {
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            font-size: 1.5rem;
+            animation: slideInFromLeft 1s ease-out;
+        }
+        
+        .service-card ul {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+        
+        .service-card ul li {
+            margin-bottom: 10px;
+            color: #666;
+            animation: fadeIn 2s ease-out;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover ul li {
+            transform: translateX(10px);
+        }
+        
+        .service-card .price {
+            font-weight: bold;
+            color: #000000;
+
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .service-card .book-button {
+            display: inline-block;
+            background-color: #1a1a1a;
+            color: #000000;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.9rem;
+            animation: bounce 1s ease-out;
+        }
+        
+        .service-card .book-button:hover {
+            background-color: #000000;
+            color: #1a1a1a;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Contact form styles */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            animation: zoomIn 1s ease-out;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            animation: slideInFromLeft 1s ease-out;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #0dff00;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .form-group textarea {
+            height: 150px;
+        }
+        
+        .submit-button {
+            display: inline-block;
+            background-color: #49f207;
+            color: #000000;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+        
+        .submit-button:hover {
+            background-color: #04ff00;
+            color: #1a1a1a;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Footer styles */
+        footer {
+            background-color: #08f310;
+            color: #000000;
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #2bff00, #ff6b6b, #4ecdc4);
+            animation: slideInFromLeft 1s ease-out;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            animation: fadeIn 2s ease-out;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+        
+        .footer-links {
+            list-style-type: none;
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links li {
+            margin: 0 15px;
+            animation: slideInFromBottom 1s ease-out;
+        }
+        
+        .footer-links a {
+            color: #1a1705;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+        
+        .social-icons {
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            color: #000000;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            animation: rotateIn 1s ease-out;
+        }
+        
+        .social-icons a:hover {
+            color: #ffffff;
+            transform: scale(1.2) rotate(15deg);
+        }
+        
+        /* Additional Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .review-card,
+            .rental-card,
+            .service-card {
+                width: 100%;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: #1a1a1a;
+                width: 100%;
+                padding: 20px 0;
+                display: none;
+                animation: slideInFromTop 0.5s ease-out;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+                color: #000000;
+                cursor: pointer;
+                animation: pulse 2s infinite;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Syquora</div>
+            <nav>
+                <div class="menu-toggle"></div>
+                <ul>
+                   
+                    <li><a href="OVERVIEW.html">OVERVIEW</a></li>
+                    <li><a href="PROJECTS.html">PROJECTS</a></li>
+                    <li><a href="PARTICIPANTS.html">PARTICIPANTS</a></li>
+                    <li><a href="CARBONCREDITS.html">CARBONCREDITS</a></li>
+                    <li><a href="DATAUPLOAD.html">DATAUPLOAD</a></li>
+                    <li><a href="VERIFICATION.html">VERIFICATION</a></li>
+                    <li><a href="help.html">HELP</a></li>
+                    <li><a href="login.html">LOGIN</a></li>
+                        
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container hero-content">
+                <h1>Experience Banking Services</h1>
+                <p>Empowering communities to restore coasts, track progress, and generate carbon credits.</p>
+                <a href="PROJECTS.html" class="cta-button">submit YOUR PROJECT</a>
+            </div>
+        </section>
+
+        <section id="reviews">
+            <div class="container">
+                <h2>Customer ratings and feedback</h2>
+                <div class="reviews">
+                    <div class="review-card animate-on-scroll">
+                         <h3>Asha Nair — Project Coordinator, Coastal Conservation Society</h3>
+                        <div class="rating">★★★★★</div>
+                        <p>“The blockchain registry made credit tracking effortless. Field uploads from our team and drone imagery sync perfectly.” — Mar 12, 2025</p>
+                    </div>
+                    <div class="review-card animate-on-scroll">
+                        <h3>Dr. Priya Mehta — Research Scientist, NCCR</h3>
+                        <div class="rating">★★★★☆</div>
+                        <p>"“Onboarding was smooth and the mobile interface is easy for our volunteers to use.” — Feb 28, 2025</p>
+                    </div>
+                    <div class="review-card animate-on-scroll">
+                          <h3>Ramesh Kumar — Panchayat Member, Chellanam</h3>
+                        <div class="rating">★★★★★</div>
+                        <p>“Great transparency on carbon credit issuance. Would love more visualization tools for community reports.” — Jan 19, 2025</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="rental">
+            <div class="container">
+                <h2>HOT PROJECTS </h2>
+                <div class="rental-options">
+                    <div class="rental-card animate-on-scroll">
+                        <img src="Gemini_Generated_Image_cksce7cksce7cksc.png" alt="Tata Harrier">
+                        <h3>🌿 Mangrove Revival Project</h3>
+                        <p>Restoring 120 hectares of degraded mangroves along the coast, supporting carbon sequestration and habitat for 15+ fish species.</p>
+                        <div class="price"></div>
+                        <a href="#contact" class="book-button">VIEW</a>
+                    </div>
+                    <div class="rental-card animate-on-scroll">
+                        <img src="Gemini_Generated_Image_cksce7cksce7cksc (1).png" alt="Mahindra XUV700">
+                        <h3>🌱 Coastal Grassland Restoration</h3>
+                        <p>Replanting 80 hectares of seagrass beds, enhancing carbon storage and improving water clarity for marine life.</p>
+                        <div class="price"></div>
+                        <a href="#contact" class="book-button">VIEW</a>
+                    </div>
+                    <div class="rental-card animate-on-scroll">
+                        <img src="Gemini_Generated_Image_zapcfdzapcfdzapc.png" alt="Maruti Suzuki Ciaz">
+                        <h3>🌊 BlueBay Carbon Shield</h3>
+                        <p>Conserving 200 hectares of salt marshes, preventing shoreline erosion and capturing thousands of tons of CO₂ annually.</p>
+                        <div class="price"></div>
+                        <a href="#contact" class="book-button">VIEW</a>
+                    </div>
+                    <div class="rental-card animate-on-scroll">
+                        <img src="Gemini_Generated_Image_vmzagfvmzagfvmza.png" alt="Hyundai Verna">
+                        <h3>🪴 Green Coast 2030</h3>
+                        <p>Community-led restoration of 150 hectares of coastal wetlands, enabling verified blue carbon credits for local markets.</p>
+                        <div class="price"></div>
+                        <a href="#contact" class="book-button">VIEW</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="rental">
+            <div class="container">
+                <h2>HOT UPCOMING PROJECTS</h2>
+                <div class="rental-options">
+                    <div class="rental-card animate-on-scroll">
+                        <img src="Gemini_Generated_Image_6rfxy06rfxy06rfx.png" alt="Tata Harrier">
+                        <h3>🐠 Coral Carbon Project</h3>
+                        <p>Protecting 50 hectares of coral-associated seagrass meadows, boosting biodiversity while locking away significant carbon stocks.</p>
+                        <div class="price"></div>
+                        <a href="#contact" class="book-button">VIEW</a>
+                    </div>
+                    <div class="rental-card animate-on-scroll">
+                        <img src="Gemini_Generated_Image_wtz8nwwtz8nwwtz8.png" alt="Mahindra XUV700">
+                        <h3>🌾 OceanEdge Seagrass Initiative</h3>
+                        <p>Reviving 100 hectares of underwater meadows, generating long-term carbon credits and stabilizing fish nurseries.</p>
+                        <div class="price"></div>
+                        <a href="#contact" class="book-button">VIEW</a>
+                    </div>
+                    <div class="rental-card animate-on-scroll">
+                        <img src="Gemini_Generated_Image_x4jao1x4jao1x4ja.png" alt="Maruti Suzuki Ciaz">
+                        <h3>🏝️ Island Blue Carbon Pilot</h3>
+                        <p>Pilot project across 60 hectares of coastal ecosystems, using drones and blockchain MRV for transparent credit issuance.</p>
+                        <div class="price"></div>
+                        <a href="#contact" class="book-button">VIEW</a>
+                    </div>
+                    <div class="rental-card animate-on-scroll">
+                        <img src="Gemini_Generated_Image_cksce7cksce7cksc (1).png" alt="Hyundai Verna">
+                        <h3>🌍 Coastal Guardians Program</h3>
+                        <p>Restoring 250 hectares of mixed mangroves and marshlands, enabling coastal panchayats to earn carbon credits for climate action.</p>
+                        <div class="price"></div>
+                        <a href="#contact" class="book-button">VIEW</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>Get in Touch</h2>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Service:</label>
+                        <select id="service" name="service">
+                            <option value="rental">CARBONCREDITS</option>
+                            <option value="signature">VERIFICATION</option>
+                            <option value="luxury">TRANSACTION</option>
+                            <option value="performance">FRAUD</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Send Inquiry</button>
+                </form>
+            </div>
+            
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">Syquora</div>
+            <ul class="footer-links">
+                    <li><a href="PROJECTS.html">PROJECTS</a></li>
+                    <li><a href="PARTICIPANTS.html">PARTICIPANTS</a></li>
+                    <li><a href="CARBONCREDITS.html">CARBONCREDITS</a></li>
+                    <li><a href="DATAUPLOAD.html">DATAUPLOAD</a></li>
+                    <li><a href="VERIFICATION.html">VERIFICATION</a></li>
+                    <li><a href="help.html">HELP</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">📘</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="Instagram">📷</a>
+            </div>
+        </div>
+        <p>&copy; syquora@gmail.com. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript for smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // JavaScript for header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 0);
+        });
+
+        // JavaScript for mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navUl = document.querySelector('nav ul');
+
+        menuToggle.addEventListener('click', function() {
+            navUl.classList.toggle('show');
+        });
+
+        // JavaScript for animating elements on scroll
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(el => {
+                if (isElementInViewport(el)) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleScrollAnimation);
+        window.addEventListener('load', handleScrollAnimation);
+
+        // JavaScript for image hover effect
+        const rentalCards = document.querySelectorAll('.rental-card');
+        rentalCards.forEach(card => {
+            const img = card.querySelector('img');
+            card.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = card.getBoundingClientRect();
+                const x = (e.clientX - left) / width;
+                const y = (e.clientY - top) / height;
+                img.style.transform = `scale(1.1) rotate(${(x - 0.5) * 10}deg) translateY(${(y - 0.5) * 10}px)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                img.style.transform = 'scale(1) rotate(0) translateY(0)';
+            });
+        });
+
+        // JavaScript for parallax effect on hero section
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            const scrollPosition = window.pageYOffset;
+            hero.style.backgroundPositionY = scrollPosition * 0.7 + 'px';
+        });
+
+        // JavaScript for animated counter
+        function animateCounter(el, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                el.textContent = Math.round(current);
+                if (current >= target) {
+                    clearInterval(timer);
+                    el.textContent = target;
+                }
+            }, 20);
+        }
+
+        // Add this to your existing JavaScript
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            animateCounter(counter, target);
+        });
+
+        // JavaScript for form validation and submission
+        const form = document.querySelector('.contact-form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add your form validation and submission logic here
+            alert('Thank you for your inquiry. We will get back to you soon!');
+            form.reset();
+        });
+
+        // JavaScript for custom cursor
+        const cursor = document.createElement('div');
+        cursor.classList.add('custom-cursor');
+        document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // JavaScript for text scramble effect
+        class TextScramble {
+            constructor(el) {
+                this.el = el;
+                this.chars = '!<>-_\\/[]{}—=+*^?#________';
+                this.update = this.update.bind(this);
+            }
+            setText(newText) {
+                const oldText = this.el.innerText;
+                const length = Math.max(oldText.length, newText.length);
+                const promise = new Promise(resolve => this.resolve = resolve);
+                this.queue = [];
+                for (let i = 0; i < length; i++) {
+                    const from = oldText[i] || '';
+                    const to = newText[i] || '';
+                    const start = Math.floor(Math.random() * 40);
+                    const end = start + Math.floor(Math.random() * 40);
+                    this.queue.push({ from, to, start, end });
+                }
+                cancelAnimationFrame(this.frameRequest);
+                this.frame = 0;
+                this.update();
+                return promise;
+            }
+            update() {
+                let output = '';
+                let complete = 0;
+                for (let i = 0, n = this.queue.length; i < n; i++) {
+                    let { from, to, start, end, char } = this.queue[i];
+                    if (this.frame >= end) {
+                        complete++;
+                        output += to;
+                    } else if (this.frame >= start) {
+                        if (!char || Math.random() < 0.28) {
+                            char = this.randomChar();
+                            this.queue[i].char = char;
+                        }
+                        output += `<span class="dud">${char}</span>`;
+                    } else {
+                        output += from;
+                    }
+                }
+                this.el.innerHTML = output;
+                if (complete === this.queue.length) {
+                    this.resolve();
+                } else {
+                    this.frameRequest = requestAnimationFrame(this.update);
+                    this.frame++;
+                }
+            }
+            randomChar() {
+                return this.chars[Math.floor(Math.random() * this.chars.length)];
+            }
+        }
+
+        // Apply text scramble effect to the main heading
+        const phrases = [
+            'Tokenizing Blue Carbon Credits with Blockchain.',
+            'Empowering NGOs, Communities & Coastal Panchayats',
+            'Seamless Data Integration from Apps, Drones & Satellites',
+            'Driving Clean & Green Technology for a Sustainable Future'
+        ];
+        const el = document.querySelector('.hero h1');
+        const fx = new TextScramble(el);
+        let counter = 0;
+        const next = () => {
+            fx.setText(phrases[counter]).then(() => {
+                setTimeout(next, 3000);
+            });
+            counter = (counter + 1) % phrases.length;
+        };
+        next();
+    </script>
+</body>
+</html>
