@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - FINEASE</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #100909;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            background-color: rgb(219, 190, 5);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+        .container h1 {
+            font-size: 32px;
+            color: #000000;
+            margin-bottom: 20px;
+            position: relative;
+            animation: bounceIn 1s ease;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        button {
+            background-color: #000000;
+            color: white;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #e800c9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FINEASE</h1>
+        <form onsubmit="handleRegister(event)">
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="email" id="register-email" placeholder="Email" required>
+            <input type="password" id="register-password" placeholder="Password" required>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+            if (storedUsers.some(user => user.email === email)) {
+                alert('This email is already registered.');
+                return;
+            }
+
+            storedUsers.push({ name, email, password });
+            localStorage.setItem('users', JSON.stringify(storedUsers));
+
+            alert('Registration successful! Please log in.');
+            window.location.href = 'login.html';  // Redirect to login page after successful registration
+        }
+    </script>
+</body>
+</html>
