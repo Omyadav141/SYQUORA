@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BlueCarbon — Admin Dashboard</title>
+
+  <!-- Styling -->
+  <link rel="stylesheet" href="admin.css">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Leaflet (map) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Ethers (wallet) -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+</head>
+<body>
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">🔵</div>
+        <div class="title">SYQUORA</div>
+      </div>
+
+      <nav class="nav">
+        <ul>
+
+          <li class="sidebar-item" data-action="open" data-page="dashboard">
+            <div class="left">
+              <i class="fa-solid fa-house"></i>
+              <span class="label">Dashboard</span>
+            </div>
+            <div class="right small muted">Overview</div>
+          </li>
+
+          <!-- Projects group -->
+          <li class="nav-group">
+            <div class="nav-toggle" role="button">
+              <div class="left"><i class="fa-solid fa-layer-group"></i><span class="label">Projects</span></div>
+              <i class="fa-solid fa-chevron-up arrow"></i>
+            </div>
+            <ul class="submenu">
+              <li class="submenu-item" data-action="sidebar-show" data-section="projects" data-sub="registered">Registered Projects</li>
+              <li class="submenu-item" data-action="sidebar-show" data-section="projects" data-sub="managed">Managed Projects</li>
+            </ul>
+          </li>
+
+          <!-- Monitoring & Verification -->
+          <li class="nav-group">
+            <div class="nav-toggle" role="button">
+              <div class="left"><i class="fa-solid fa-chart-line"></i><span class="label">Monitoring & Verification</span></div>
+              <i class="fa-solid fa-chevron-up arrow"></i>
+            </div>
+            <ul class="submenu">
+              <li class="submenu-item" data-action="sidebar-show" data-section="mrv" data-sub="dashboard">MRV Dashboard</li>
+              <li class="submenu-item" data-action="sidebar-show" data-section="mrv" data-sub="verification">Verification</li>
+            </ul>
+          </li>
+
+          <!-- Infrastructure -->
+          <li class="nav-group">
+            <div class="nav-toggle" role="button">
+              <div class="left"><i class="fa-solid fa-sitemap"></i><span class="label">Infrastructure</span></div>
+              <i class="fa-solid fa-chevron-up arrow"></i>
+            </div>
+            <ul class="submenu">
+              <li class="submenu-item" data-action="open" data-page="more">Storage</li>
+              <li class="submenu-item" data-action="open" data-page="more">APIs</li>
+              <li class="submenu-item" data-action="open" data-page="more">Settings</li>
+            </ul>
+          </li>
+
+          <li class="sidebar-item" data-action="open" data-page="projects">
+            <div class="left"><i class="fa-solid fa-folder-open"></i><span class="label">Projects</span></div>
+            <div class="badge" id="registeredCount">0</div>
+          </li>
+
+          <li class="sidebar-item" data-action="open" data-page="mrv">
+            <div class="left"><i class="fa-solid fa-vials"></i><span class="label">MRV</span></div>
+          </li>
+
+          <li class="sidebar-item" data-action="open" data-page="verification">
+            <div class="left"><i class="fa-solid fa-check-to-slot"></i><span class="label">Verification</span></div>
+          </li>
+
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="small muted">© BlueCarbon</div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="top-left">
+          <nav class="top-nav">
+            <button class="top-btn active" data-page="dashboard">Dashboard</button>
+            <button class="top-btn" data-page="registerProject">Register Project</button>
+            <button class="top-btn" data-page="projects">Projects</button>
+            <button class="top-btn" data-page="mrv">MRV</button>
+            <button class="top-btn" data-page="verification">Verification</button>
+            <button class="top-btn" data-page="more">More</button>
+          </nav>
+        </div>
+
+        <div class="top-right">
+          <div class="wallet-panel">
+            <div class="wallet-stats">
+              <div id="walletAddress" class="muted small">Wallet: Not connected</div>
+              <div id="walletNetwork" class="muted small">Network: -</div>
+            </div>
+            <button id="connectBtn" class="btn" title="Connect your Web3 wallet">Connect Wallet</button>
+          </div>
+
+          <div class="admin-user" id="adminUserBtn" title="Admin menu">
+            <div class="avatar">AU</div>
+            <div class="admin-info">
+              <div class="admin-name">Admin User</div>
+              <div class="admin-role muted">Administrator</div>
+            </div>
+            <div class="admin-dropdown hidden" id="adminDropdown">
+              <button class="dd-item" id="profileBtn">Profile</button>
+              <button class="dd-item" id="logoutBtn">Logout</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="content">
+
+        <!-- DASHBOARD -->
+        <section id="page-dashboard" class="page active">
+          <div class="page-header">
+            <h1>Overview</h1>
+            <div class="page-actions">
+              <button class="btn ghost" id="refreshBtn">Refresh</button>
+            </div>
+          </div>
+
+          <div class="grid grid-3">
+            <div class="card big-card">
+              <div class="card-title">Registered Projects</div>
+              <div class="card-value" id="kpiRegistered">0</div>
+              <div class="card-sub">Total active registered projects</div>
+            </div>
+            <div class="card big-card">
+              <div class="card-title">CO₂ Sequestered</div>
+              <div class="card-value" id="kpiCO2">0 t</div>
+              <div class="card-sub">Estimated sequestration</div>
+            </div>
+            <div class="card big-card">
+              <div class="card-title">Project Health</div>
+              <div class="card-value" id="kpiHealth">0%</div>
+              <div class="card-sub">Average health score</div>
+            </div>
+          </div>
+
+          <div class="panel mt">
+            <h3>CO₂ Trend</h3>
+            <canvas id="co2Chart" height="120"></canvas>
+          </div>
+
+          <div class="panel mt">
+            <h3>Recent Activity</h3>
+            <ul id="recentActivity" class="activity-list"></ul>
+          </div>
+        </section>
+
+        <!-- REGISTER PROJECT -->
+        <section id="page-registerProject" class="page">
+          <div class="page-header"><h1>Register Project</h1></div>
+          <div class="panel">
+            <form id="registerForm" class="form-grid">
+              <label>Project Name<input id="rpName" required></label>
+              <label>Owner / Org<input id="rpOwner" required></label>
+              <label>Hectares<input id="rpHa" type="number" required></label>
+              <label>Latitude<input id="rpLat" type="number" step="0.0001" required></label>
+              <label>Longitude<input id="rpLon" type="number" step="0.0001" required></label>
+              <div class="form-actions">
+                <button class="btn" type="submit">Save Project</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="page-projects" class="page">
+          <div class="page-header">
+            <h1>Projects</h1>
+            <div class="tabs">
+              <button class="tab active" data-tab="registered">Registered Projects</button>
+              <button class="tab" data-tab="managed">Managed Projects</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div id="projectsTableWrap">
+              <table class="table" id="projectsTable">
+                <thead><tr><th>Project</th><th>Owner</th><th>Ha</th><th>CO₂ (t)</th><th>Health</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel mt">
+            <h3>Project Map</h3>
+            <div id="mapView" class="map-view"></div>
+          </div>
+        </section>
+
+        <!-- MRV -->
+        <section id="page-mrv" class="page">
+          <div class="page-header">
+            <h1>Monitoring & Reporting (MRV)</h1>
+            <div class="tabs">
+              <button class="tab active" data-tab="dashboard">MRV Dashboard</button>
+              <button class="tab" data-tab="verification">Verification</button>
+            </div>
+          </div>
+
+          <div class="panel" id="mrvDashboard">
+            <div class="grid grid-3">
+              <div class="card">
+                <div class="card-title">Latest MRV Upload</div>
+                <div class="card-value" id="mrvLatest">—</div>
+              </div>
+              <div class="card">
+                <div class="card-title">Avg Biodiversity Index</div>
+                <div class="card-value" id="mrvBio">—</div>
+              </div>
+              <div class="card">
+                <div class="card-title">Pending Verifications</div>
+                <div class="card-value" id="mrvPending">—</div>
+              </div>
+            </div>
+
+            <div class="panel mt">
+              <h4>Upload MRV (CSV/XLSX) — demo</h4>
+              <input type="file" id="mrvUpload" accept=".csv,.xlsx"/>
+            </div>
+          </div>
+
+          <div class="panel hidden" id="mrvVerification">
+            <h3>Verification</h3>
+            <table class="table" id="verificationTable">
+              <thead><tr><th>Project</th><th>Uploader</th><th>File</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- VERIFICATION -->
+        <section id="page-verification" class="page">
+          <div class="page-header"><h1>Verification</h1></div>
+          <div class="panel">
+            <h3>Pending Verifications</h3>
+            <table class="table" id="verificationList">
+              <thead><tr><th>Project</th><th>Submitted</th><th>Review</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- MORE => Blockchain & Wallet -->
+        <section id="page-more" class="page">
+          <div class="page-header"><h1>Blockchain & Wallet</h1></div>
+          <div class="panel">
+            <div class="tabs">
+              <button class="tab active" data-btab="w-overview">Overview</button>
+              <button class="tab" data-btab="w-contracts">Smart Contracts</button>
+              <button class="tab" data-btab="w-token">Token Management</button>
+              <button class="tab" data-btab="w-tx">Transactions</button>
+              <button class="tab" data-btab="w-network">Network Status</button>
+            </div>
+
+            <div id="w-overview" class="wallet-tab active">
+              <h4>Wallet Overview</h4>
+              <p id="walletOverview">Connect a wallet to see balances, tokens and recent transactions.</p>
+            </div>
+
+            <div id="w-contracts" class="wallet-tab hidden">
+              <h4>Smart Contracts</h4>
+              <div class="panel small">
+                <label>Contract Address<input id="contractAddr"></label>
+                <div class="form-actions">
+                  <button class="btn" id="readContractBtn">Read (placeholder)</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="w-token" class="wallet-tab hidden">
+              <h4>Token Management</h4>
+              <div class="panel small">
+                <label>Token (ERC20) Address<input id="tokenAddr"></label>
+                <label>Amount<input id="tokenAmount" type="number" min="0"></label>
+                <div class="form-actions">
+                  <button class="btn" id="tokenTransferBtn">Transfer (placeholder)</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="w-tx" class="wallet-tab hidden">
+              <h4>Transactions</h4>
+              <ul id="txLog" class="tx-log"></ul>
+            </div>
+
+            <div id="w-network" class="wallet-tab hidden">
+              <h4>Network Status</h4>
+              <div class="grid grid-2">
+                <div class="card small">
+                  <div class="card-title">Network</div>
+                  <div id="netName">—</div>
+                </div>
+                <div class="card small">
+                  <div class="card-title">Chain ID</div>
+                  <div id="chainId">—</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Project detail modal -->
+  <div id="modalOverlay" class="modal-overlay hidden" role="dialog" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script src="admin.js" defer></script>
+</body>
+</html>
