@@ -88,7 +88,7 @@
 
 
     <div class="container">
-        <h1>FINEASE</h1>
+        <h1>Syquora</h1>
         <form onsubmit="handleLogin(event)">
             <input type="email" id="login-email" placeholder="Email" required>
             <input type="password" id="login-password" placeholder="Password" required>
@@ -109,12 +109,11 @@
             if (user) {
                 alert('Login successful!');
                 localStorage.setItem('loggedInUser', JSON.stringify(user)); // Store the logged-in user data
-                window.location.href = 'index.html';  // Redirect to index.html after successful login
+                window.location.href = 'admin.html';  // ✅ Redirect to admin page
             } else {
                 alert('Invalid email or password.');
             }
         }
-
     </script>
 </body>
 </html>
