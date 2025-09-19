@@ -1,119 +1,275 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - CARPRO</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .container {
-            background-color: rgb(5, 235, 20);
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(175, 3, 3, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            animation: fadeIn 0.8s ease-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .container h1 {
-            font-size: 32px;
-            color: #000000;
-            margin-bottom: 20px;
-            position: relative;
-            animation: bounceIn 1s ease;
-        }
-        @keyframes bounceIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            80% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); }
-        }
-        input[type="email"], input[type="password"] {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-        }
-        button {
-            background-color: #000000;
-            color: white;
-            padding: 15px;
-            width: 100%;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #e8e8e8;
-        }
-        .register-link {
-            margin-top: 20px;
-            display: inline-block;
-            color: #000000;
-            text-decoration: none;
-        }
-        .register-link:hover {
-            text-decoration: underline;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Syquora — Login</title>
 
-    </style>
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    /* ---------- Base / Reset ---------- */
+    :root{
+      --bg: #f3f6fb;
+      --card: #fff;
+      --accent: #0b63e2;
+      --accent-2: #0b9be2;
+      --muted: #6b7280;
+      --glass: rgba(255,255,255,0.7);
+      --success: #10b981;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
+    body{
+      background: linear-gradient(180deg, #e9f0ff 0%, var(--bg) 100%);
+      display:flex;align-items:center;justify-content:center;padding:24px;
+    }
+
+    /* ---------- Card ---------- */
+    .auth-wrap{
+      width:100%;max-width:980px;display:grid;grid-template-columns:480px 1fr;gap:28px;
+      align-items:center;
+    }
+    .brand-panel{
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      color: white;border-radius:16px;padding:36px;box-shadow:0 8px 40px rgba(10,30,80,0.12);
+      display:flex;flex-direction:column;gap:18px;align-items:flex-start;
+    }
+    .brand-logo{
+      width:64px;height:64px;border-radius:12px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:26px;
+    }
+    .brand-title{font-size:28px;font-weight:700;letter-spacing:0.6px}
+    .brand-sub{color:rgba(255,255,255,0.9);font-size:14px;max-width:340px}
+    .brand-stats{display:flex;gap:12px;margin-top:auto}
+    .stat{background:rgba(255,255,255,0.08);padding:10px 12px;border-radius:10px;font-weight:700}
+
+    /* ---------- Form panel ---------- */
+    .card{
+      background:var(--card);border-radius:12px;padding:28px;box-shadow:0 8px 30px rgba(18,38,63,0.06);
+    }
+    .card h2{margin:0 0 8px 0;font-size:20px}
+    .card p.lead{margin:0 0 18px 0;color:var(--muted)}
+    .form-row{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+    label{font-size:13px;color:var(--muted);font-weight:600}
+    input[type="email"], input[type="password"]{
+      padding:12px 14px;border-radius:10px;border:1px solid #e6eef8;font-size:15px;outline:none;
+      transition:box-shadow .15s,border-color .15s;
+    }
+    input:focus{box-shadow:0 6px 18px rgba(11,99,226,0.08);border-color:var(--accent)}
+    .form-actions{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:8px}
+    .btn{
+      background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer;transition:transform .08s,box-shadow .08s;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{background:transparent;border:1px solid #e6eef8;color:#111}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* Google button placeholder sizing */
+    #g_id_onload, .g_id_signin { width:100%; }
+
+    .divider{display:flex;align-items:center;gap:12px;margin:16px 0}
+    .divider .line{height:1px;background:#eef1f6;flex:1}
+    .divider .text{font-size:13px;color:var(--muted);font-weight:700}
+
+    /* helper row */
+    .row-between{display:flex;justify-content:space-between;align-items:center}
+
+    /* show/hide password toggle */
+    .pw-row{display:flex;gap:8px;align-items:center}
+    .pw-toggle{background:transparent;border:0;color:var(--muted);cursor:pointer;font-weight:700;padding:6px 8px;border-radius:8px}
+    .note{font-size:13px;color:var(--muted)}
+
+    /* small links */
+    .link { color:var(--accent);text-decoration:none;font-weight:700 }
+
+    /* responsive */
+    @media (max-width:980px){
+      .auth-wrap{grid-template-columns:1fr;max-width:520px}
+      .brand-panel{order:2}
+    }
+  </style>
 </head>
 <body>
 
+  <div class="auth-wrap" role="main" aria-labelledby="syq-title">
+    <!-- Brand / Left panel -->
+    <aside class="brand-panel" aria-hidden="false">
+      <div class="brand-logo" aria-hidden="true">SQ</div>
+      <div>
+        <div class="brand-title" id="syq-title">Syquora</div>
+        <div class="brand-sub">Blue Carbon Registry • Admin Portal — Secure access for project managers, verifiers and admins.</div>
+      </div>
 
-    <div class="container">
-        <h1>Syquora</h1>
-        <form onsubmit="handleLogin(event)">
-            <input type="email" id="login-email" placeholder="Email" required>
-            <input type="password" id="login-password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-        <a href="register.html" class="register-link">Don't have an account? Register</a>
-    </div>
+      <div style="margin-top:6px;color:rgba(255,255,255,0.9)" class="muted">
+        <div style="font-size:13px;margin-bottom:8px">Welcome back — Sign in to manage projects, MRV uploads and verifications.</div>
+      </div>
 
-    <script>
-        function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
+      <div class="brand-stats" role="list" aria-label="Quick stats">
+        <div class="stat" role="listitem">🌍 128 Projects</div>
+        <div class="stat" role="listitem">✔️ 54 Verified</div>
+      </div>
+    </aside>
 
-            const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-            const user = storedUsers.find(u => u.email === email && u.password === password);
+    <!-- Form / Right panel -->
+    <section class="card" aria-labelledby="signin-heading">
+      <h2 id="signin-heading">Sign in to Syquora</h2>
+      <p class="lead">Use your Google account or sign in with email & password.</p>
 
-            if (user) {
-                alert('Login successful!');
-                localStorage.setItem('loggedInUser', JSON.stringify(user)); // Store the logged-in user data
-                window.location.href = 'admin.html';  // ✅ Redirect to admin page
-            } else {
-                alert('Invalid email or password.');
-            }
+      <!-- Google Sign-in (GSI) -->
+      <div id="g_id_onload"
+        data-client_id="YOUR_GOOGLE_CLIENT_ID"
+        data-context="signin"
+        data-ux_mode="popup"
+        data-callback="handleCredentialResponse"
+        data-auto_prompt="false">
+      </div>
+
+      <div style="margin-top:10px" class="google-button">
+        <div class="g_id_signin"
+          data-type="standard"
+          data-shape="rectangular"
+          data-theme="outline"
+          data-text="signin_with"
+          data-size="large"
+          data-logo_alignment="left">
+        </div>
+      </div>
+
+      <div class="divider" aria-hidden="true">
+        <div class="line"></div>
+        <div class="text">or continue with</div>
+        <div class="line"></div>
+      </div>
+
+      <!-- Email / Password form -->
+      <form id="loginForm" autocomplete="on" novalidate>
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input id="email" type="email" name="email" required placeholder="you@example.com" autocomplete="email">
+        </div>
+
+        <div class="form-row">
+          <label for="password">Password</label>
+          <div style="display:flex;gap:8px;">
+            <input id="password" type="password" name="password" required placeholder="Your password" autocomplete="current-password" style="flex:1">
+            <button type="button" class="pw-toggle" id="togglePw" aria-pressed="false">Show</button>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="muted">
+            <label style="display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px">
+              <input id="remember" type="checkbox" style="transform:scale(1.1)"/> Remember
+            </label>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:center">
+            <a class="link" href="register.html">Don't have an account?</a>
+            <button class="btn" type="submit" aria-label="Sign in">Sign in</button>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;font-size:13px;color:var(--muted)">
+          <a href="#" id="forgotLink" class="link">Forgot password?</a>
+        </div>
+      </form>
+
+      <p style="margin-top:18px;font-size:13px;color:var(--muted)">Demo note: email/password is stored locally for demo only.</p>
+    </section>
+  </div>
+
+  <script>
+    // ---------- Utility helpers ----------
+    const qs = s => document.querySelector(s);
+    const qsa = s => Array.from(document.querySelectorAll(s));
+
+    // ---------- Google Sign-In callback ----------
+    // This function is called by the Google Identity Service when sign-in completes.
+    function handleCredentialResponse(response) {
+      try {
+        // Decode token payload (ID token)
+        const payload = parseJwt(response.credential);
+        // Demo: show a friendly message and redirect to admin page
+        alert('Welcome ' + payload.name + ' (' + payload.email + ')');
+        // In real app: send token to backend for verification
+        localStorage.setItem('syq_user', JSON.stringify({ email: payload.email, name: payload.name, provider: 'google' }));
+        window.location.href = 'admin.html';
+      } catch (err) {
+        console.error('GSI parse error', err);
+        alert('Google sign-in failed.');
+      }
+    }
+
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1] || '';
+      const base64 = base64Url.replace(/-/g,'+').replace(/_/g,'/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+      return JSON.parse(jsonPayload);
+    }
+
+    // ---------- Email/password demo auth (localStorage) ----------
+    const LOGIN_KEY = 'syq_users'; // array of users {name,email,password}
+    function getUsers() {
+      try { return JSON.parse(localStorage.getItem(LOGIN_KEY) || '[]') } catch(e){ return [] }
+    }
+    function saveUsers(arr){ localStorage.setItem(LOGIN_KEY, JSON.stringify(arr)) }
+
+    // On submit: validate and check localStorage
+    document.getElementById('loginForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const password = document.getElementById('password').value;
+
+      if(!email || !password){
+        alert('Please enter both email and password.');
+        return;
+      }
+
+      const users = getUsers();
+      const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
+      if(user){
+        localStorage.setItem('syq_user', JSON.stringify({ email: user.email, name: user.name, provider: 'local' }));
+        alert('Welcome back, ' + (user.name || user.email));
+        window.location.href = 'admin.html';
+      } else {
+        // not found
+        if(confirm('Account not found. Would you like to register with this email?')) {
+          window.location.href = 'register.html?prefill=' + encodeURIComponent(email);
+        } else {
+          alert('Please check your credentials or register first.');
         }
-    </script>
+      }
+    });
+
+    // ---------- Show / Hide password ----------
+    const pwToggle = document.getElementById('togglePw');
+    pwToggle.addEventListener('click', () => {
+      const inp = document.getElementById('password');
+      const showing = inp.type === 'text';
+      inp.type = showing ? 'password' : 'text';
+      pwToggle.innerText = showing ? 'Show' : 'Hide';
+      pwToggle.setAttribute('aria-pressed', String(!showing));
+    });
+
+    // ---------- Forgot link (demo) ----------
+    document.getElementById('forgotLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      const email = prompt('Enter your registered email for password reset (demo):');
+      if(!email) return alert('Cancelled.');
+      const users = getUsers();
+      const u = users.find(x => x.email.toLowerCase() === email.toLowerCase());
+      if(!u) return alert('Email not found (demo).');
+      alert('Demo: your password is: ' + u.password + '\n(Again: do not use this in real apps — use proper reset emails.)');
+    });
+
+    // ---------- Autofill if remembered (demo) ----------
+    const remembered = localStorage.getItem('syq_user');
+    if(remembered){
+      // optional: keep user logged in — we do not auto-redirect here for demo
+      // const obj = JSON.parse(remembered);
+      // window.location.href = 'admin.html';
+    }
+  </script>
 </body>
 </html>

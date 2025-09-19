@@ -1,95 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - SYQUORA</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #100909;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .container {
-            background-color: rgb(219, 190, 5);
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            animation: fadeIn 0.8s ease-out;
-        }
-        .container h1 {
-            font-size: 32px;
-            color: #000000;
-            margin-bottom: 20px;
-            position: relative;
-            animation: bounceIn 1s ease;
-        }
-        input[type="text"], input[type="email"], input[type="password"] {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-        }
-        button {
-            background-color: #000000;
-            color: white;
-            padding: 15px;
-            width: 100%;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #e800c9;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Syquora — Register</title>
+  <style>
+    :root{--accent:#0b63e2;--muted:#6b7280;--card:#fff}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial;background:#f6f9ff;display:flex;align-items:center;justify-content:center;height:100vh;padding:24px}
+    .card{background:var(--card);border-radius:12px;padding:26px;max-width:520px;width:100%;box-shadow:0 10px 40px rgba(10,30,80,0.06)}
+    h2{margin:0 0 6px 0}p.lead{color:var(--muted);margin:0 0 18px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .full{grid-column:1/-1}
+    label{font-size:13px;color:var(--muted);font-weight:700}
+    input{padding:12px;border-radius:10px;border:1px solid #e6eef8;font-size:15px}
+    .row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:12px}
+    .btn{background:var(--accent);color:white;padding:10px 14px;border:0;border-radius:10px;cursor:pointer;font-weight:700}
+    .muted{color:var(--muted);font-size:13px}
+    .pw-toggle{background:transparent;border:0;color:var(--muted);cursor:pointer;font-weight:700}
+    @media (max-width:560px){.grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>SYQUORA</h1>
-        <form onsubmit="handleRegister(event)">
-            <input type="text" id="name" placeholder="Name" required>
-            <input type="email" id="register-email" placeholder="Email" required>
-            <input type="password" id="register-password" placeholder="Password" required>
-            <button type="submit">Register</button>
-        </form>
-    </div>
+  <div class="card" role="main">
+    <h2>Create your Syquora account</h2>
+    <p class="lead">Register an admin or user account to manage projects and MRV. (Demo only — uses localStorage)</p>
 
-    <script>
-        function handleRegister(event) {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
+    <form id="registerForm" autocomplete="on" novalidate>
+      <div class="grid">
+        <div>
+          <label for="rname">Full name</label><br>
+          <input id="rname" type="text" placeholder="Jane Doe" required>
+        </div>
+        <div>
+          <label for="rorg">Organization</label><br>
+          <input id="rorg" type="text" placeholder="NGO / Community / Gov">
+        </div>
 
-            const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+        <div class="full">
+          <label for="remail">Email</label><br>
+          <input id="remail" type="email" placeholder="you@example.com" required>
+        </div>
 
-            if (storedUsers.some(user => user.email === email)) {
-                alert('This email is already registered.');
-                return;
-            }
+        <div>
+          <label for="rpassword">Password</label><br>
+          <input id="rpassword" type="password" placeholder="Choose a strong password" required>
+        </div>
+        <div>
+          <label for="rpassword2">Confirm</label><br>
+          <input id="rpassword2" type="password" placeholder="Confirm password" required>
+        </div>
 
-            storedUsers.push({ name, email, password });
-            localStorage.setItem('users', JSON.stringify(storedUsers));
+        <div class="full">
+          <label><input id="rterms" type="checkbox"> I agree to the <a href="terms.html">Terms & Conditions</a></label>
+        </div>
 
-            alert('Registration successful! Please log in.');
-            window.location.href = 'login.html';  // Redirect to login page after successful registration
-        }
-    </script>
+      </div>
+
+      <div class="row" style="margin-top:18px">
+        <div class="muted">Already registered? <a href="login.html" class="link">Sign in</a></div>
+        <button class="btn" type="submit">Create account</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const REGISTER_KEY = 'syq_users';
+
+    function getUsers(){ try { return JSON.parse(localStorage.getItem(REGISTER_KEY) || '[]') } catch (e) { return [] } }
+    function saveUsers(arr){ localStorage.setItem(REGISTER_KEY, JSON.stringify(arr)) }
+
+    // Prefill email if present in query
+    function qs(sel){ return document.querySelector(sel) }
+    const params = new URLSearchParams(location.search);
+    if(params.has('prefill')) qs('#remail').value = decodeURIComponent(params.get('prefill'));
+
+    qs('#registerForm').addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const name = qs('#rname').value.trim();
+      const org  = qs('#rorg').value.trim();
+      const email = qs('#remail').value.trim().toLowerCase();
+      const pw = qs('#rpassword').value;
+      const pw2 = qs('#rpassword2').value;
+      const terms = qs('#rterms').checked;
+
+      if(!name || !email || !pw || !pw2) return alert('Please fill all required fields.');
+      if(pw !== pw2) return alert('Passwords do not match.');
+      if(pw.length < 6) return alert('Password should be at least 6 characters.');
+      if(!terms) return alert('You must agree to the terms.');
+
+      const users = getUsers();
+      if(users.some(u => u.email === email)) {
+        return alert('An account with this email already exists. Please sign in or reset password.');
+      }
+
+      // For demo only: save plain password (DO NOT DO THIS IN PRODUCTION).
+      users.unshift({ name, org, email, password: pw, created: new Date().toISOString() });
+      saveUsers(users);
+
+      // auto-login demo
+      localStorage.setItem('syq_user', JSON.stringify({ email, name, provider: 'local' }));
+
+      alert('Account created — welcome, ' + name + '!');
+      window.location.href = 'admin.html';
+    });
+  </script>
 </body>
 </html>
