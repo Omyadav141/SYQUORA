@@ -5,8 +5,8 @@ import bodyParser from "body-parser";
 const app = express();
 app.use(bodyParser.json());
 
-const CLIENT_ID = "804630636275-tt8nkmdugf3sj76uuk98kap07c205o8f.apps.googleusercontent.com";
-const CLIENT_SECRET = "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";
+const CLIENT_ID = "804630636275-8i276ocltjm67hrdmdn81ijmbi7musbm.apps.googleusercontent.com";
+const CLIENT_SECRET = "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";
 
 app.post("/verify-token", async (req, res) => {
   const token = req.body.token;
