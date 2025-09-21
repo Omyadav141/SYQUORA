@@ -102,7 +102,6 @@
 
     <!-- MAIN -->
     <div class="main">
-
       <!-- TOPBAR -->
       <header class="topbar">
         <div class="top-left">
@@ -148,6 +147,7 @@
             <h1>Overview</h1>
             <div class="page-actions">
               <button class="btn ghost" id="refreshBtn">Refresh</button>
+              <button class="btn ghost" id="clearStorageBtn">Clear All Data</button>
             </div>
           </div>
 
@@ -190,6 +190,8 @@
               <label>Hectares<input id="rpHa" type="number" required></label>
               <label>Latitude<input id="rpLat" type="number" step="0.0001" required></label>
               <label>Longitude<input id="rpLon" type="number" step="0.0001" required></label>
+              <label>Assigned Employee<input id="rpEmployee" required></label>
+              <label>Project Description<textarea id="rpDescription" rows="3" required></textarea></label>
               <div class="form-actions">
                 <button class="btn" type="submit">Save Project</button>
               </div>
@@ -250,7 +252,7 @@
 
             <div class="panel mt">
               <h4>Upload MRV (CSV/XLSX) — demo</h4>
-              <input type="file" id="mrvUpload" accept=".csv,.xlsx"/>
+              <input type="file" id="mrvUpload" accept=".csv,xlsx"/>
             </div>
           </div>
 
@@ -347,6 +349,71 @@
       <div id="modalContent"></div>
     </div>
   </div>
+
+  <!-- Google Maps overlay (ADDED) -->
+  <div id="gmapOverlay" class="modal-overlay hidden" role="dialog" aria-hidden="true">
+    <div class="gmap-modal">
+      <button class="modal-close" id="gmapClose"><i class="fa-solid fa-xmark"></i></button>
+      <div class="gmap-header"><strong id="gmapTitle">Project Map</strong></div>
+      <iframe id="gmapIframe" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Google Maps handler (ADDED): opens embedded Google Maps when user clicks Map buttons -->
+  <script>
+  (function(){
+    const overlay = document.getElementById('gmapOverlay');
+    const iframe = document.getElementById('gmapIframe');
+    const closeBtn = document.getElementById('gmapClose');
+    const titleEl = document.getElementById('gmapTitle');
+
+    function openMap(lat, lon, title, zoom){
+      zoom = zoom || 11;
+      if(!lat || !lon) return alert('Coordinates not available for this project.');
+      const src = 'https://maps.google.com/maps?q=' + encodeURIComponent(lat + ',' + lon) + '&z=' + encodeURIComponent(zoom) + '&output=embed';
+      iframe.src = src;
+      if(titleEl) titleEl.textContent = title || 'Map';
+      overlay.classList.remove('hidden');
+    }
+    function closeMap(){
+      overlay.classList.add('hidden');
+      iframe.src = '';
+    }
+
+    // Close handlers
+    if(closeBtn) closeBtn.addEventListener('click', closeMap);
+    if(overlay) overlay.addEventListener('click', function(e){ if(e.target === overlay) closeMap(); });
+
+    // Capture-phase click handler to intercept map zoom clicks before existing handlers (preserves admin.js file)
+    document.addEventListener('click', function(e){
+      const btn = e.target.closest && e.target.closest('[data-action="zoom"], #modalZoomBtn');
+      if(!btn) return;
+      // prevent original map handlers in admin.js from executing
+      e.preventDefault();
+      e.stopPropagation();
+
+      let lat = btn.dataset.lat;
+      let lon = btn.dataset.lon;
+      let title = btn.dataset.name || btn.dataset.project || '';
+      if(btn.id === 'modalZoomBtn' && (!lat || !lon)){
+        // try to find project name in modal and lookup coords from projects array
+        const modalH3 = document.querySelector('#modalContent h3');
+        const pname = modalH3 ? modalH3.textContent.trim() : '';
+        if(typeof projects !== 'undefined' && pname){
+          const p = projects.find(x => x.name === pname || x.id === pname);
+          if(p && p.coords && p.coords.length === 2){
+            lat = p.coords[0]; lon = p.coords[1];
+          }
+        }
+      }
+      if(lat && lon){
+        openMap(lat, lon, title, 11);
+      } else {
+        alert('Coordinates not available for this project.');
+      }
+    }, true);
+  })();
+  </script>
 
   <!-- Script -->
   <script src="admin.js" defer></script>

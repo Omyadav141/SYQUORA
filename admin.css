@@ -5,6 +5,7 @@
   --muted:#7d8793;
   --card:#ffffff;
   --glass: rgba(255,255,255,0.6);
+  --danger: #e53935;
 }
 
 /* Reset */
@@ -39,7 +40,7 @@ body{
 .nav{flex:1;overflow:auto}
 .nav ul{list-style:none;padding:0;margin:0}
 .sidebar-item, .nav-toggle{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:8px;cursor:pointer;gap:12px;transition:background .18s}
-.sidebar-item:hover,.nav-toggle:hover{background:rgba(255,255,255,0.06)}
+.sidebar-item:hover,nav-toggle:hover{background:rgba(255,255,255,0.06)}
 .sidebar-item .left i, .nav-toggle .left i{width:26px;text-align:center}
 .label{font-weight:700;font-size:15px;margin-left:8px}
 
@@ -70,6 +71,7 @@ body{
 .wallet-stats .muted{font-size:12px;color:var(--muted)}
 .btn{background:var(--accent);color:white;padding:8px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:700}
 .btn.ghost{background:transparent;border:1px solid #e5e7eb;color:#111}
+.btn.danger{background:var(--danger);color:white}
 .admin-user{display:flex;align-items:center;gap:10px;position:relative;cursor:pointer}
 .avatar{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#5b21b6,#1e90ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
 .admin-info .admin-name{font-weight:700}
@@ -108,7 +110,8 @@ body{
 /* forms */
 .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .form-grid label{display:flex;flex-direction:column;font-size:13px}
-.form-grid input{padding:10px;border-radius:8px;border:1px solid #e6eef8}
+.form-grid input, .form-grid textarea{padding:10px;border-radius:8px;border:1px solid #e6eef8}
+.form-grid textarea{resize:vertical;min-height:80px}
 
 /* tabs */
 .tabs{display:flex;gap:8px}
@@ -128,7 +131,7 @@ body{
 
 
 /* map */
-.map-view{height:420px;border-radius:8px;border:1px solid #e6eef8;overflow:hidden}
+.map-view{height:420px;width:100%;border-radius:8px;border:1px solid #e6eef8;overflow:hidden}
 
 /* small helpers */
 .small{font-size:13px}
@@ -142,4 +145,33 @@ body{
   .sidebar{display:none}
   .grid-3{grid-template-columns:repeat(1,1fr)}
   .top-nav{overflow:auto}
+  .form-grid{grid-template-columns:1fr}
+  .form-actions{grid-column:1}
 }
+
+/* Google Maps overlay styles (ADDED) */
+#gmapOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:60;
+}
+.gmap-modal{
+  width:90%;
+  max-width:1100px;
+  height:80%;
+  background:var(--card);
+  border-radius:10px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 12px 40px rgba(2,6,23,0.4);
+  display:flex;
+  flex-direction:column;
+}
+.gmap-modal .modal-close{position:absolute;top:10px;right:10px;z-index:10;background:transparent;border:0;padding:8px;cursor:pointer}
+.gmap-header{padding:12px 16px;border-bottom:1px solid #eef2ff;font-weight:700}
+#gmapIframe{flex:1;width:100%;border:0}
+#gmapOverlay.hidden{display:none}
