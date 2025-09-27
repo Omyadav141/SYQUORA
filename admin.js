@@ -392,6 +392,61 @@ function handleMRVUpload(fileInput){
   alert('MRV file received: ' + file.name);
 }
 
+/* Get user's current location */
+function getCurrentLocation() {
+  const statusEl = el('locationStatus');
+  statusEl.textContent = 'Getting location...';
+  statusEl.className = 'small';
+  
+  if (!navigator.geolocation) {
+    statusEl.textContent = 'Geolocation is not supported by this browser.';
+    statusEl.className = 'small muted';
+    return;
+  }
+  
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      
+      el('rpLat').value = lat.toFixed(6);
+      el('rpLon').value = lon.toFixed(6);
+      
+      statusEl.textContent = 'Location acquired successfully!';
+      statusEl.className = 'small success';
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => {
+        statusEl.textContent = '';
+      }, 3000);
+    },
+    (error) => {
+      let errorMsg;
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          errorMsg = 'Location access denied. Please allow location access or enter coordinates manually.';
+          break;
+        case error.POSITION_UNAVAILABLE:
+          errorMsg = 'Location information is unavailable.';
+          break;
+        case error.TIMEOUT:
+          errorMsg = 'Location request timed out.';
+          break;
+        default:
+          errorMsg = 'An unknown error occurred.';
+          break;
+      }
+      statusEl.textContent = errorMsg;
+      statusEl.className = 'small muted';
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 60000
+    }
+  );
+}
+
 /* Register Project */
 function handleRegisterSubmit(e){
   e.preventDefault();
@@ -476,7 +531,7 @@ function clearAllData() {
     // Save defaults
     saveToStorage(STORAGE_KEYS.PROJECTS, projects);
     saveToStorage(STORAGE_KEYS.VERIFICATIONS, verifications);
-    saveToStorage(STORAGE_KEYS.TRANSACTIONS, txs);
+    saveToStorage(STORAGE_KEYS.TRACTIONS, txs);
     
     // Refresh UI
     refreshAll();
@@ -536,6 +591,7 @@ document.addEventListener('DOMContentLoaded', () => {
   el('readContractBtn').addEventListener('click', readContract);
   el('tokenTransferBtn').addEventListener('click', tokenTransfer);
   el('mrvUpload').addEventListener('change', (ev) => handleMRVUpload(ev.target));
+  el('getLocationBtn').addEventListener('click', getCurrentLocation);
   qs('#registerForm').addEventListener('submit', handleRegisterSubmit);
   el('refreshBtn').addEventListener('click', refreshAll);
   el('clearStorageBtn').addEventListener('click', clearAllData);

@@ -188,8 +188,19 @@
               <label>Project Name<input id="rpName" required></label>
               <label>Owner / Org<input id="rpOwner" required></label>
               <label>Hectares<input id="rpHa" type="number" required></label>
-              <label>Latitude<input id="rpLat" type="number" step="0.0001" required></label>
-              <label>Longitude<input id="rpLon" type="number" step="0.0001" required></label>
+              
+              <div class="location-section" style="grid-column: span 2;">
+                <h4 style="margin-top: 0;">Project Location</h4>
+                <div style="display: flex; gap: 10px; align-items: flex-end;">
+                  <label style="flex: 1;">Latitude<input id="rpLat" type="number" step="0.0001" required></label>
+                  <label style="flex: 1;">Longitude<input id="rpLon" type="number" step="0.0001" required></label>
+                  <button type="button" class="btn ghost" id="getLocationBtn" style="margin-bottom: 8px;">
+                    <i class="fa-solid fa-location-crosshairs"></i> Use My Location
+                  </button>
+                </div>
+                <div id="locationStatus" class="small muted" style="margin-top: 5px;"></div>
+              </div>
+              
               <label>Assigned Employee<input id="rpEmployee" required></label>
               <label>Project Description<textarea id="rpDescription" rows="3" required></textarea></label>
               <div class="form-actions">
