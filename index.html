@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Syquora</title>
+    <title>Syquora - Blue Carbon Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Reset and base styles */
         * {
@@ -12,45 +14,54 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --primary: #029eff;
+            --primary-dark: #0077cc;
+            --secondary: #00c9a7;
+            --accent: #ff6b6b;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --text: #333333;
+            --text-light: #6c757d;
+            --gold: #d4af37;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
         
         @keyframes slideInFromLeft {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
         @keyframes slideInFromRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
         @keyframes slideInFromTop {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
         @keyframes slideInFromBottom {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
         @keyframes zoomIn {
-            from { transform: scale(0.5); opacity: 0; }
+            from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
         
-        @keyframes rotateIn {
-            from { transform: rotate(-360deg); opacity: 0; }
-            to { transform: rotate(0); opacity: 1; }
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-30px); }
-            60% { transform: translateY(-15px); }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
         
         @keyframes pulse {
@@ -59,57 +70,26 @@
             100% { transform: scale(1); }
         }
         
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-            20%, 40%, 60%, 80% { transform: translateX(10px); }
-        }
-        
-        @keyframes flipInX {
-            from {
-                transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-                animation-timing-function: ease-in;
-                opacity: 0;
-            }
-            40% {
-                transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-                animation-timing-function: ease-in;
-            }
-            60% {
-                transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-                opacity: 1;
-            }
-            80% {
-                transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-            }
-            to {
-                transform: perspective(400px);
-            }
-        }
-        
-        @keyframes lightSpeedIn {
-            from {
-                transform: translate3d(100%, 0, 0) skewX(-30deg);
-                opacity: 0;
-            }
-            60% {
-                transform: skewX(20deg);
-                opacity: 1;
-            }
-            80% {
-                transform: skewX(-5deg);
-            }
-            to {
-                transform: translate3d(0, 0, 0);
-            }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #000000;
-            background-color: #f8f8f8;
-            animation: fadeIn 1s ease-out;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
         }
         
         .container {
@@ -121,18 +101,20 @@
         
         /* Header styles */
         header {
-            background-color: #029eff;
-            color: #000000;
-            padding: 1rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.2rem 0;
             position: fixed;
             width: 100%;
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
         
         header.scrolled {
-            background-color:  #029eff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 0;
+            background: rgba(2, 158, 255, 0.95);
+            backdrop-filter: blur(10px);
         }
         
         .header-content {
@@ -142,11 +124,32 @@
         }
         
         .logo {
-            font-size: 2rem;
-            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: slideInFromLeft 1s ease-out, pulse 2s infinite;
+            letter-spacing: 3px;
+            animation: slideInFromLeft 1s ease-out;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+        
+        .logo:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
         
         nav ul {
@@ -155,19 +158,20 @@
         }
         
         nav ul li {
-            margin-left: 30px;
+            margin-left: 35px;
             animation: slideInFromRight 1s ease-out;
         }
         
         nav ul li a {
-            color: #000000;
+            color: white;
             text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            transition: var(--transition);
             text-transform: uppercase;
             font-size: 0.9rem;
             letter-spacing: 1px;
             position: relative;
+            padding: 5px 0;
         }
         
         nav ul li a::after {
@@ -175,28 +179,41 @@
             position: absolute;
             width: 100%;
             height: 2px;
-            bottom: -5px;
+            bottom: 0;
             left: 0;
-            background-color: #000000;
+            background-color: var(--gold);
             transform: scaleX(0);
+            transform-origin: right;
             transition: transform 0.3s ease;
         }
         
         nav ul li a:hover::after {
             transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            animation: pulse 2s infinite;
         }
         
         /* Hero section styles */
         .hero {
-            background-image: url('Gemini_Generated_Image_5kwvj5kwvj5kwvj5.png');
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('Gemini_Generated_Image_5kwvj5kwvj5kwvj5.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: white;
             text-align: center;
-            padding: 200px 0 100px;
+            padding: 200px 0 150px;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
         }
         
         .hero::before {
@@ -206,73 +223,116 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, rgba(2, 158, 255, 0.3) 0%, rgba(0, 201, 167, 0.3) 100%);
             animation: fadeIn 2s ease-out;
         }
         
         .hero-content {
             position: relative;
             z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            animation: zoomIn 1s ease-out, pulse 2s infinite;
+            font-size: 4rem;
+            margin-bottom: 25px;
+            animation: zoomIn 1s ease-out;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
         }
         
         .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1.3rem;
+            margin-bottom: 40px;
             animation: fadeIn 2s ease-out;
+            font-weight: 300;
+            line-height: 1.8;
         }
         
         .cta-button {
             display: inline-block;
-            background-color: #029eff;
-            color: #1a1a1a;
-            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 15px 40px;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: bold;
+            font-weight: 600;
             text-transform: uppercase;
-            transition: all 0.3s ease;
-            animation: bounce 1s ease-out;
-        }
-        
-        .cta-button:hover {
-            background-color: #ffffff;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Section styles */
-        section {
-            padding: 80px 0;
-            background-color: white;
+            transition: var(--transition);
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
             position: relative;
             overflow: hidden;
         }
         
-        section::before {
+        .cta-button::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(to right, #029eff, #ff6b6b, #4ecdc4);
-            animation: slideInFromLeft 1s ease-out;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
         }
         
-        section h2 {
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Section styles */
+        section {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        section:nth-child(even) {
+            background-color: white;
+        }
+        
+        section:nth-child(odd) {
+            background-color: #f8f9fa;
+        }
+        
+        .section-header {
             text-align: center;
-            margin-bottom: 50px;
-            color:  #029eff;
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: slideInFromTop 1s ease-out;
+            margin-bottom: 70px;
+            position: relative;
+        }
+        
+        .section-header h2 {
+            font-size: 2.8rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-light);
+            font-size: 1.1rem;
         }
         
         /* Car reviews styles */
@@ -284,47 +344,48 @@
         
         .review-card {
             width: calc(33.333% - 20px);
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            padding: 35px 30px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
             animation: zoomIn 1s ease-out;
         }
         
+        .review-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+        
         .review-card:hover {
-            transform: translateY(-10px) rotate(2deg);
-            box-shadow: 0 15px 30px rgba(85, 255, 0, 0.2);
-        }
-        
-        .review-card img {
-            width: 100%;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .review-card:hover img {
-            transform: scale(1.05);
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
         }
         
         .review-card h3 {
             margin-bottom: 15px;
-            color: #1a1a1a;
-            font-size: 1.5rem;
+            color: var(--dark);
+            font-size: 1.4rem;
             animation: slideInFromLeft 1s ease-out;
         }
         
         .review-card .rating {
-            color:  #029eff;
+            color: var(--gold);
             margin-bottom: 15px;
             font-size: 1.2rem;
             animation: fadeIn 2s ease-out;
         }
         
         .review-card p {
-            color: #666;
+            color: var(--text-light);
             font-style: italic;
             animation: slideInFromBottom 1s ease-out;
         }
@@ -338,153 +399,98 @@
         
         .rental-card {
             width: calc(25% - 20px);
-            background-color: #f9f9f9;
-            border-radius: 10px;
+            background-color: white;
+            border-radius: 15px;
             padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             text-align: center;
-            transition: all 0.3s ease;
-            animation: flipInX 1s ease-out;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            animation: slideInFromBottom 1s ease-out;
+        }
+        
+        .rental-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
         }
         
         .rental-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
         }
         
         .rental-card img {
             width: 100%;
-            border-radius: 5px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
         
         .rental-card:hover img {
-            transform: scale(1.1) rotate(5deg);
+            transform: scale(1.05);
         }
         
         .rental-card h3 {
             margin-bottom: 15px;
-            color: #1a1a1a;
-            font-size: 1.5rem;
+            color: var(--dark);
+            font-size: 1.3rem;
             animation: slideInFromTop 1s ease-out;
         }
         
-        .rental-card .price {
-            font-weight: bold;
-            color:  #029eff;
+        .rental-card p {
+            color: var(--text-light);
             margin-bottom: 20px;
-            font-size: 1.2rem;
-            animation: pulse 2s infinite;
+            font-size: 0.95rem;
         }
         
         .rental-card .book-button {
             display: inline-block;
-            background-color:  #029eff;
-            color: #000000;
-            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 10px 25px;
             text-decoration: none;
             border-radius: 50px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             text-transform: uppercase;
-            font-weight: bold;
-            font-size: 0.9rem;
-            animation: bounce 1s ease-out;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .rental-card .book-button:hover {
-            background-color: #fcfcfc;
-            color: #1a1a1a;
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Car servicing styles */
-        .service-options {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        
-        .service-card {
-            width: calc(33.333% - 20px);
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            animation: lightSpeedIn 1s ease-out;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .service-card h3 {
-            margin-bottom: 20px;
-            color: #1a1a1a;
-            font-size: 1.5rem;
-            animation: slideInFromLeft 1s ease-out;
-        }
-        
-        .service-card ul {
-            list-style-type: none;
-            margin-bottom: 20px;
-        }
-        
-        .service-card ul li {
-            margin-bottom: 10px;
-            color: #666;
-            animation: fadeIn 2s ease-out;
-            transition: all 0.3s ease;
-        }
-        
-        .service-card:hover ul li {
-            transform: translateX(10px);
-        }
-        
-        .service-card .price {
-            font-weight: bold;
-            color: #000000;
-
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-            animation: pulse 2s infinite;
-        }
-        
-        .service-card .book-button {
-            display: inline-block;
-            background-color: #1a1a1a;
-            color: #000000;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            font-weight: bold;
-            font-size: 0.9rem;
-            animation: bounce 1s ease-out;
-        }
-        
-        .service-card .book-button:hover {
-            background-color: #000000;
-            color: #1a1a1a;
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         
         /* Contact form styles */
         .contact-form {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
-            background-color: #f9f9f9;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
             animation: zoomIn 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
         }
         
         .form-group {
@@ -495,63 +501,64 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: bold;
-            color: #1a1a1a;
+            font-weight: 600;
+            color: var(--dark);
         }
         
         .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 15px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            font-family: 'Montserrat', sans-serif;
         }
         
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
-            border-color:  #029eff;
+            border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 0 3px rgba(2, 158, 255, 0.1);
         }
         
         .form-group textarea {
             height: 150px;
+            resize: vertical;
         }
         
         .submit-button {
             display: inline-block;
-            background-color:  #029eff;
-            color: #000000;
-            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 15px 40px;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: var(--transition);
             border: none;
             cursor: pointer;
             text-transform: uppercase;
             font-size: 1rem;
             letter-spacing: 1px;
-            animation: pulse 2s infinite;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
         }
         
         .submit-button:hover {
-            background-color:  #029eff;
-            color: #1a1a1a;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
         
         /* Footer styles */
         footer {
-            background-color:  #029eff;
-            color: #000000;
+            background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+            color: white;
             text-align: center;
-            padding: 40px 0;
+            padding: 60px 0 30px;
             position: relative;
             overflow: hidden;
         }
@@ -561,10 +568,9 @@
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
+            width: 100%;
             height: 5px;
-            background: linear-gradient(to right,  #029eff, #ff6b6b, #4ecdc4);
-            animation: slideInFromLeft 1s ease-out;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
         }
         
         .footer-content {
@@ -572,14 +578,16 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            margin-bottom: 40px;
             animation: fadeIn 2s ease-out;
         }
         
         .footer-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             animation: pulse 2s infinite;
         }
         
@@ -595,14 +603,14 @@
         }
         
         .footer-links a {
-            color: #1a1705;
+            color: #b8b8b8;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            font-weight: 500;
         }
         
         .footer-links a:hover {
-            color: #ffffff;
-            transform: scale(1.1);
+            color: white;
         }
         
         .social-icons {
@@ -610,23 +618,31 @@
         }
         
         .social-icons a {
-            color: #000000;
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: all 0.3s ease;
-            animation: rotateIn 1s ease-out;
+            color: white;
+            font-size: 1.3rem;
+            margin: 0 12px;
+            transition: var(--transition);
+            display: inline-block;
         }
         
         .social-icons a:hover {
-            color: #ffffff;
-            transform: scale(1.2) rotate(15deg);
+            color: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            color: #b8b8b8;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         /* Additional Animations */
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(50px);
-            transition: all 1s ease-out;
+            transition: all 0.8s ease-out;
         }
         
         .animate-on-scroll.visible {
@@ -634,12 +650,70 @@
             transform: translateY(0);
         }
         
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
         /* Responsive styles */
+        @media (max-width: 1200px) {
+            .rental-card {
+                width: calc(50% - 20px);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .review-card {
+                width: calc(50% - 20px);
+            }
+            
+            .rental-card {
+                width: calc(50% - 20px);
+            }
+            
+            .hero h1 {
+                font-size: 3.2rem;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .review-card,
-            .rental-card,
-            .service-card {
-                width: 100%;
+            .menu-toggle {
+                display: block;
             }
             
             nav ul {
@@ -647,11 +721,13 @@
                 position: absolute;
                 top: 100%;
                 left: 0;
-                background-color: #1a1a1a;
+                background: rgba(2, 158, 255, 0.95);
+                backdrop-filter: blur(10px);
                 width: 100%;
                 padding: 20px 0;
                 display: none;
                 animation: slideInFromTop 0.5s ease-out;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             }
             
             nav ul.show {
@@ -660,29 +736,74 @@
             
             nav ul li {
                 margin: 10px 0;
+                text-align: center;
             }
             
-            .menu-toggle {
-                display: block;
-                font-size: 1.5rem;
-                color: #000000;
-                cursor: pointer;
-                animation: pulse 2s infinite;
+            .review-card,
+            .rental-card {
+                width: 100%;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                margin: 20px 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                padding: 150px 0 100px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 70px 0;
+            }
+            
+            .contact-form {
+                padding: 30px 20px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Back to top button -->
+    <div class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
     <header>
         <div class="container header-content">
             <div class="logo">Syquora</div>
             <nav>
-                <div class="menu-toggle"></div>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
                 <ul>
-                   
-
-                    <li><a href="login.html">LOGIN</a></li>
-                        
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="login.html" class="login-btn">LOGIN</a></li>
                 </ul>
             </nav>
         </div>
@@ -691,18 +812,21 @@
     <main>
         <section id="home" class="hero">
             <div class="container hero-content">
-                <h1>Experience Banking Services</h1>
-                <p>Empowering communities to restore coasts, track progress, and generate carbon credits.</p>
-                <a href="PROJECTS.html" class="cta-button">submit YOUR PROJECT</a>
+                <h1>Experience Blue Carbon Solutions</h1>
+                <p>Empowering communities to restore coasts, track progress, and generate carbon credits with cutting-edge blockchain technology.</p>
+                <a href="PROJECTS.html" class="cta-button">Submit Your Project</a>
             </div>
         </section>
 
         <section id="reviews">
             <div class="container">
-                <h2>Customer ratings and feedback</h2>
+                <div class="section-header">
+                    <h2>Customer Ratings & Feedback</h2>
+                    <p>What our partners and clients say about our blue carbon initiatives</p>
+                </div>
                 <div class="reviews">
                     <div class="review-card animate-on-scroll">
-                         <h3>Asha Nair — Project Coordinator, Coastal Conservation Society</h3>
+                        <h3>Asha Nair — Project Coordinator, Coastal Conservation Society</h3>
                         <div class="rating">★★★★★</div>
                         <p>“The blockchain registry made credit tracking effortless. Field uploads from our team and drone imagery sync perfectly.” — Mar 12, 2025</p>
                     </div>
@@ -712,7 +836,7 @@
                         <p>"“Onboarding was smooth and the mobile interface is easy for our volunteers to use.” — Feb 28, 2025</p>
                     </div>
                     <div class="review-card animate-on-scroll">
-                          <h3>Ramesh Kumar — Panchayat Member, Chellanam</h3>
+                        <h3>Ramesh Kumar — Panchayat Member, Chellanam</h3>
                         <div class="rating">★★★★★</div>
                         <p>“Great transparency on carbon credit issuance. Would love more visualization tools for community reports.” — Jan 19, 2025</p>
                     </div>
@@ -720,73 +844,71 @@
             </div>
         </section>
 
-        <section id="rental">
+        <section id="projects">
             <div class="container">
-                <h2>HOT PROJECTS </h2>
+                <div class="section-header">
+                    <h2>Active Projects</h2>
+                    <p>Our current initiatives in blue carbon restoration and conservation</p>
+                </div>
                 <div class="rental-options">
                     <div class="rental-card animate-on-scroll">
-                        <img src="Gemini_Generated_Image_cksce7cksce7cksc.png" alt="Tata Harrier">
+                        <img src="Gemini_Generated_Image_cksce7cksce7cksc.png" alt="Mangrove Revival Project">
                         <h3>🌿 Mangrove Revival Project</h3>
                         <p>Restoring 120 hectares of degraded mangroves along the coast, supporting carbon sequestration and habitat for 15+ fish species.</p>
-                        <div class="price"></div>
-                        <a href="#contact" class="book-button">VIEW</a>
+                        <a href="#contact" class="book-button">View Details</a>
                     </div>
                     <div class="rental-card animate-on-scroll">
-                        <img src="Gemini_Generated_Image_cksce7cksce7cksc (1).png" alt="Mahindra XUV700">
+                        <img src="Gemini_Generated_Image_cksce7cksce7cksc (1).png" alt="Coastal Grassland Restoration">
                         <h3>🌱 Coastal Grassland Restoration</h3>
                         <p>Replanting 80 hectares of seagrass beds, enhancing carbon storage and improving water clarity for marine life.</p>
-                        <div class="price"></div>
-                        <a href="#contact" class="book-button">VIEW</a>
+                        <a href="#contact" class="book-button">View Details</a>
                     </div>
                     <div class="rental-card animate-on-scroll">
-                        <img src="Gemini_Generated_Image_zapcfdzapcfdzapc.png" alt="Maruti Suzuki Ciaz">
+                        <img src="Gemini_Generated_Image_zapcfdzapcfdzapc.png" alt="BlueBay Carbon Shield">
                         <h3>🌊 BlueBay Carbon Shield</h3>
                         <p>Conserving 200 hectares of salt marshes, preventing shoreline erosion and capturing thousands of tons of CO₂ annually.</p>
-                        <div class="price"></div>
-                        <a href="#contact" class="book-button">VIEW</a>
+                        <a href="#contact" class="book-button">View Details</a>
                     </div>
                     <div class="rental-card animate-on-scroll">
-                        <img src="Gemini_Generated_Image_vmzagfvmzagfvmza.png" alt="Hyundai Verna">
+                        <img src="Gemini_Generated_Image_vmzagfvmzagfvmza.png" alt="Green Coast 2030">
                         <h3>🪴 Green Coast 2030</h3>
                         <p>Community-led restoration of 150 hectares of coastal wetlands, enabling verified blue carbon credits for local markets.</p>
-                        <div class="price"></div>
-                        <a href="#contact" class="book-button">VIEW</a>
+                        <a href="#contact" class="book-button">View Details</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="rental">
+        <section id="upcoming">
             <div class="container">
-                <h2>HOT UPCOMING PROJECTS</h2>
+                <div class="section-header">
+                    <h2>Upcoming Initiatives</h2>
+                    <p>Future projects in our blue carbon pipeline</p>
+                </div>
                 <div class="rental-options">
                     <div class="rental-card animate-on-scroll">
-                        <img src="Gemini_Generated_Image_6rfxy06rfxy06rfx.png" alt="Tata Harrier">
+                        <img src="Gemini_Generated_Image_6rfxy06rfxy06rfx.png" alt="Coral Carbon Project">
                         <h3>🐠 Coral Carbon Project</h3>
                         <p>Protecting 50 hectares of coral-associated seagrass meadows, boosting biodiversity while locking away significant carbon stocks.</p>
-                        <div class="price"></div>
-                        <a href="#contact" class="book-button">VIEW</a>
+                        <a href="#contact" class="book-button">Learn More</a>
                     </div>
                     <div class="rental-card animate-on-scroll">
-                        <img src="Gemini_Generated_Image_wtz8nwwtz8nwwtz8.png" alt="Mahindra XUV700">
+                        <img src="Gemini_Generated_Image_wtz8nwwtz8nwwtz8.png" alt="OceanEdge Seagrass Initiative">
                         <h3>🌾 OceanEdge Seagrass Initiative</h3>
                         <p>Reviving 100 hectares of underwater meadows, generating long-term carbon credits and stabilizing fish nurseries.</p>
-                        <div class="price"></div>
-                        <a href="#contact" class="book-button">VIEW</a>
+                        <a href="#contact" class="book-button">Learn More</a>
                     </div>
                     <div class="rental-card animate-on-scroll">
-                        <img src="Gemini_Generated_Image_x4jao1x4jao1x4ja.png" alt="Maruti Suzuki Ciaz">
+                        <img src="Gemini_Generated_Image_x4jao1x4jao1x4ja.png" alt="Island Blue Carbon Pilot">
                         <h3>🏝️ Island Blue Carbon Pilot</h3>
                         <p>Pilot project across 60 hectares of coastal ecosystems, using drones and blockchain MRV for transparent credit issuance.</p>
-                        <div class="price"></div>
-                        <a href="#contact" class="book-button">VIEW</a>
+                        <a href="#contact" class="book-button">Learn More</a>
                     </div>
                     <div class="rental-card animate-on-scroll">
-                        <img src="Gemini_Generated_Image_cksce7cksce7cksc (1).png" alt="Hyundai Verna">
+                        <img src="Gemini_Generated_Image_cksce7cksce7cksc (1).png" alt="Coastal Guardians Program">
                         <h3>🌍 Coastal Guardians Program</h3>
                         <p>Restoring 250 hectares of mixed mangroves and marshlands, enabling coastal panchayats to earn carbon credits for climate action.</p>
-                        <div class="price"></div>
-                        <a href="#contact" class="book-button">VIEW</a>
+                        <a href="#contact" class="book-button">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -794,7 +916,10 @@
 
         <section id="contact">
             <div class="container">
-                <h2>Get in Touch</h2>
+                <div class="section-header">
+                    <h2>Get in Touch</h2>
+                    <p>Contact us to learn more about our blue carbon initiatives</p>
+                </div>
                 <form class="contact-form">
                     <div class="form-group">
                         <label for="name">Name:</label>
@@ -811,10 +936,10 @@
                     <div class="form-group">
                         <label for="service">Service:</label>
                         <select id="service" name="service">
-                            <option value="rental">CARBONCREDITS</option>
-                            <option value="signature">VERIFICATION</option>
-                            <option value="luxury">TRANSACTION</option>
-                            <option value="performance">FRAUD</option>
+                            <option value="carbon">Carbon Credits</option>
+                            <option value="verification">Verification</option>
+                            <option value="transaction">Transaction</option>
+                            <option value="fraud">Fraud Prevention</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -824,23 +949,31 @@
                     <button type="submit" class="submit-button">Send Inquiry</button>
                 </form>
             </div>
-            
         </section>
     </main>
 
     <footer>
-        <div class="container footer-content">
-            <div class="footer-logo">Syquora</div>
-            <ul class="footer-links">
-                   
-            </ul>
-            <div class="social-icons">
-                <a href="#" aria-label="Facebook">📘</a>
-                <a href="#" aria-label="Twitter">🐦</a>
-                <a href="#" aria-label="Instagram">📷</a>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Syquora</div>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Syquora. All rights reserved. | syquora@gmail.com
             </div>
         </div>
-        <p>&copy; syquora@gmail.com. All rights reserved.</p>
     </footer>
 
     <script>
@@ -857,7 +990,9 @@
         // JavaScript for header scroll effect
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
-            header.classList.toggle('scrolled', window.scrollY > 0);
+            const backToTop = document.querySelector('.back-to-top');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+            backToTop.classList.toggle('active', window.scrollY > 300);
         });
 
         // JavaScript for mobile menu toggle
@@ -872,10 +1007,8 @@
         function isElementInViewport(el) {
             const rect = el.getBoundingClientRect();
             return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.9 &&
+                rect.bottom >= 0
             );
         }
 
@@ -891,50 +1024,15 @@
         window.addEventListener('scroll', handleScrollAnimation);
         window.addEventListener('load', handleScrollAnimation);
 
-        // JavaScript for image hover effect
-        const rentalCards = document.querySelectorAll('.rental-card');
-        rentalCards.forEach(card => {
-            const img = card.querySelector('img');
-            card.addEventListener('mousemove', (e) => {
-                const { left, top, width, height } = card.getBoundingClientRect();
-                const x = (e.clientX - left) / width;
-                const y = (e.clientY - top) / height;
-                img.style.transform = `scale(1.1) rotate(${(x - 0.5) * 10}deg) translateY(${(y - 0.5) * 10}px)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                img.style.transform = 'scale(1) rotate(0) translateY(0)';
+        // JavaScript for back to top button
+        document.querySelector('.back-to-top').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         });
 
-        // JavaScript for parallax effect on hero section
-        window.addEventListener('scroll', () => {
-            const hero = document.querySelector('.hero');
-            const scrollPosition = window.pageYOffset;
-            hero.style.backgroundPositionY = scrollPosition * 0.7 + 'px';
-        });
-
-        // JavaScript for animated counter
-        function animateCounter(el, target) {
-            let current = 0;
-            const increment = target / 100;
-            const timer = setInterval(() => {
-                current += increment;
-                el.textContent = Math.round(current);
-                if (current >= target) {
-                    clearInterval(timer);
-                    el.textContent = target;
-                }
-            }, 20);
-        }
-
-        // Add this to your existing JavaScript
-        const counters = document.querySelectorAll('.counter');
-        counters.forEach(counter => {
-            const target = parseInt(counter.getAttribute('data-target'));
-            animateCounter(counter, target);
-        });
-
-        // JavaScript for form validation and submission
+        // JavaScript for form submission
         const form = document.querySelector('.contact-form');
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -943,88 +1041,28 @@
             form.reset();
         });
 
-        // JavaScript for custom cursor
-        const cursor = document.createElement('div');
-        cursor.classList.add('custom-cursor');
-        document.body.appendChild(cursor);
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // JavaScript for text scramble effect
-        class TextScramble {
-            constructor(el) {
-                this.el = el;
-                this.chars = '!<>-_\\/[]{}—=+*^?#________';
-                this.update = this.update.bind(this);
-            }
-            setText(newText) {
-                const oldText = this.el.innerText;
-                const length = Math.max(oldText.length, newText.length);
-                const promise = new Promise(resolve => this.resolve = resolve);
-                this.queue = [];
-                for (let i = 0; i < length; i++) {
-                    const from = oldText[i] || '';
-                    const to = newText[i] || '';
-                    const start = Math.floor(Math.random() * 40);
-                    const end = start + Math.floor(Math.random() * 40);
-                    this.queue.push({ from, to, start, end });
+        // Add floating elements
+        function createFloatingElements() {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                for (let i = 0; i < 3; i++) {
+                    const floatingEl = document.createElement('div');
+                    floatingEl.classList.add('floating-element');
+                    
+                    const size = Math.random() * 100 + 50;
+                    floatingEl.style.width = `${size}px`;
+                    floatingEl.style.height = `${size}px`;
+                    floatingEl.style.top = `${Math.random() * 80 + 10}%`;
+                    floatingEl.style.left = `${Math.random() * 80 + 10}%`;
+                    floatingEl.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    section.appendChild(floatingEl);
                 }
-                cancelAnimationFrame(this.frameRequest);
-                this.frame = 0;
-                this.update();
-                return promise;
-            }
-            update() {
-                let output = '';
-                let complete = 0;
-                for (let i = 0, n = this.queue.length; i < n; i++) {
-                    let { from, to, start, end, char } = this.queue[i];
-                    if (this.frame >= end) {
-                        complete++;
-                        output += to;
-                    } else if (this.frame >= start) {
-                        if (!char || Math.random() < 0.28) {
-                            char = this.randomChar();
-                            this.queue[i].char = char;
-                        }
-                        output += `<span class="dud">${char}</span>`;
-                    } else {
-                        output += from;
-                    }
-                }
-                this.el.innerHTML = output;
-                if (complete === this.queue.length) {
-                    this.resolve();
-                } else {
-                    this.frameRequest = requestAnimationFrame(this.update);
-                    this.frame++;
-                }
-            }
-            randomChar() {
-                return this.chars[Math.floor(Math.random() * this.chars.length)];
-            }
+            });
         }
 
-        // Apply text scramble effect to the main heading
-        const phrases = [
-            'Tokenizing Blue Carbon Credits with Blockchain.',
-            'Empowering NGOs, Communities & Coastal Panchayats',
-            'Seamless Data Integration from Apps, Drones & Satellites',
-            'Driving Clean & Green Technology for a Sustainable Future'
-        ];
-        const el = document.querySelector('.hero h1');
-        const fx = new TextScramble(el);
-        let counter = 0;
-        const next = () => {
-            fx.setText(phrases[counter]).then(() => {
-                setTimeout(next, 3000);
-            });
-            counter = (counter + 1) % phrases.length;
-        };
-        next();
+        // Initialize floating elements
+        createFloatingElements();
     </script>
 </body>
 </html>
